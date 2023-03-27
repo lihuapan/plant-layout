@@ -1,8 +1,9 @@
 import { Box, Stack, Text, Title, Tooltip } from '@mantine/core'
-import PlantImg from './asset/plant.png'
-import { MachineProp, machines, mockMachines } from './data'
+import PlantImg from '../asset/plant.png'
+import colors from '../color'
+import { MachineProp, mockMachines } from '../data'
 
-function App() {
+export default function Plant() {
   return (
     <Stack
       style={{
@@ -23,7 +24,7 @@ const PlantLayout = () => {
   return (
     <Box
       sx={{
-        background: `url(${PlantImg})`,
+        background: `url(${PlantImg.src})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
         width: 'min(850px, 100%)',
@@ -31,8 +32,8 @@ const PlantLayout = () => {
         position: 'relative'
       }}
     >
-      {mockMachines().map(m => (
-        <Machine {...m} />
+      {mockMachines().map((m, i) => (
+        <Machine {...m} key={i} />
       ))}
     </Box>
   )
@@ -58,19 +59,19 @@ function Machine<T extends object>(data: MachineProp<T>) {
   let color
   switch (data.datum?.status) {
     case undefined: {
-      color = 'rgba(145, 145, 145, 0.6)'
+      color = colors['cyan-bluish-gray']
       break
     }
     case 'ok': {
-      color = 'rgba(0, 142, 230, 0.6)'
+      color = '#75C53C'
       break
     }
     case 'warning': {
-      color = 'rgba(255, 193, 7, 0.6)'
+      color = '#F9B82C'
       break
     }
     case 'error': {
-      color = 'rgba(244, 67, 54, 0.6)'
+      color = '#CA3E31'
       break
     }
   }
@@ -79,8 +80,8 @@ function Machine<T extends object>(data: MachineProp<T>) {
       label={
         <Stack spacing={0}>
           <Line k="ID" v={data.id} />
-          {Object.entries(data.datum ?? Empty).map(([k, v]) => (
-            <Line k={k} v={v} />
+          {Object.entries(data.datum ?? Empty).map(([k, v], i) => (
+            <Line k={k} v={v} key={i} />
           ))}
         </Stack>
       }
@@ -93,6 +94,7 @@ function Machine<T extends object>(data: MachineProp<T>) {
           height: `${data.height}%`,
           width: `${data.width}%`,
           background: color,
+          opacity: 0.75,
           boxShadow: '0 0 0 1px black',
           fontSize: '70%',
           fontWeight: 'bold',
@@ -108,5 +110,3 @@ function Machine<T extends object>(data: MachineProp<T>) {
     </Tooltip.Floating>
   )
 }
-
-export default App
