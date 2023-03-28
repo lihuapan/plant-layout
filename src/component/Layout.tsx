@@ -1,10 +1,8 @@
-import { Box, Group, Tabs } from '@mantine/core'
-// import { useViewportSize } from '@mantine/hooks'
-import { IconExternalLink } from '@tabler/icons-react'
+import { Box, Group, Tabs, } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import { ReactNode, } from 'react'
 import colors from '../color'
 // import { ClassName } from '../font'
 
@@ -21,7 +19,7 @@ export default function Layout(props: { children: ReactNode }) {
           top: 0,
           left: 0,
           right: 0,
-          background: colors['light-yellow'],
+          background: colors.white,
           zIndex: 100,
           color: colors.white,
         }}
@@ -32,7 +30,12 @@ export default function Layout(props: { children: ReactNode }) {
               'maxWidth': '100%',
               'maxHeight': '100%',
               objectFit: 'contain'
-            }} width="408" height="45" src="https://www.tropicanabrandsgroup.com/wp-content/uploads/2022/01/Tropicana-Brands-Group-408x116.webp" alt="Tropicana Brands" />
+            }}
+              width="408"
+              height="45"
+              src="https://www.tropicanabrandsgroup.com/wp-content/uploads/2022/01/Tropicana-Brands-Group-408x116.webp"
+              alt="Tropicana Brands"
+            />
           </Link>
         </Box>
         <Tabs
@@ -46,15 +49,15 @@ export default function Layout(props: { children: ReactNode }) {
           h={'77px'}
           styles={{
             tab: {
-              'color': colors.black,
+              'color': colors.dark,
               'border': 'none',
               'borderBottom': `4px solid transparent`,
               'fontSize': '1rem',
               ':hover': {
-                'color': colors['luminous-vivid-orange']
+                'color': colors['orange']
               },
               '&[data-active]': {
-                borderColor: colors['luminous-vivid-amber']
+                borderColor: colors.orange
               }
             },
             tabsList: {
@@ -67,20 +70,21 @@ export default function Layout(props: { children: ReactNode }) {
         >
           <Tabs.List pr="1rem">
             <Tabs.Tab value="/">Homepage</Tabs.Tab>
+            <Tabs.Tab value="/power_bi">Power BI</Tabs.Tab>
             <Tabs.Tab value="/plant">Plant</Tabs.Tab>
             <Tabs.Tab value="/chain">Supply Chain</Tabs.Tab>
-            <Tabs.Tab
+            {/* <Tabs.Tab
               value="https://w.amazon.com/bin/view/AP_DAPP/Engagement_model/#HOncallTickets28SIM-T29"
               ml="auto"
               rightSection={<IconExternalLink size={14} />}
             >
               Contact
-            </Tabs.Tab>
+            </Tabs.Tab> */}
           </Tabs.List>
         </Tabs>
       </Group>
 
-      <Box component="main" mb="xl">
+      <Box component="main" mb="xl" mih="calc(100vh - 100px)">
         {props.children}
       </Box>
     </Box>

@@ -6,9 +6,9 @@ import { MachineProp, mockMachines } from '../data'
 export default function Plant() {
   return (
     <Stack
+      w="100%"
+      h='100%'
       style={{
-        minWidth: '100vw',
-        minHeight: '95vh',
         justifyContent: 'center',
         alignItems: 'center',
         padding: '1rem'
@@ -59,7 +59,7 @@ function Machine<T extends object>(data: MachineProp<T>) {
   let color
   switch (data.datum?.status) {
     case undefined: {
-      color = colors['cyan-bluish-gray']
+      color = colors['gray']
       break
     }
     case 'ok': {

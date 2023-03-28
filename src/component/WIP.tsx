@@ -4,7 +4,7 @@ import colors from '../color'
 export default function WIP() {
   return (
     <Center w="100%" mih="20vh">
-      <Title order={2} color={colors['luminous-vivid-orange']}>
+      <Title order={2} color={colors['orange']}>
         Working in progress
       </Title>
     </Center>
