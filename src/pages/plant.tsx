@@ -7,7 +7,7 @@ export default function Plant() {
   return (
     <Stack
       w="100%"
-      h='100%'
+      h="100%"
       style={{
         justifyContent: 'center',
         alignItems: 'center',
@@ -59,7 +59,7 @@ function Machine<T extends object>(data: MachineProp<T>) {
   let color
   switch (data.datum?.status) {
     case undefined: {
-      color = colors['gray']
+      color = colors.white
       break
     }
     case 'ok': {

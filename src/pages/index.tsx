@@ -1,9 +1,17 @@
-import { Box, Button, Container, Group, Input, Stack, Text, Title } from '@mantine/core'
+import {
+  Box,
+  Button,
+  Container,
+  Group,
+  Input,
+  Stack,
+  Text,
+  Title
+} from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useRef } from 'react'
 import colors from '../color'
-
 
 export default function Index() {
   const ref = useRef<HTMLInputElement>(null)
@@ -53,8 +61,8 @@ export default function Index() {
                   root: {
                     'background': colors.green,
                     '&:not([data-disabled])': theme.fn.hover({
-                      backgroundColor: theme.fn.darken(colors.green, 0.05),
-                    }),
+                      backgroundColor: theme.fn.darken(colors.green, 0.05)
+                    })
                   }
                 })}
                 onClick={search}
@@ -120,5 +128,4 @@ export default function Index() {
         </Container> */}
     </Stack>
   )
-
 }

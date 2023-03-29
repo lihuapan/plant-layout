@@ -3,7 +3,7 @@ const colors = {
   "light": "#ffc600",
   "white": "#fff6da",
   "orange": "#ff7800",
-  "green": "#82c300"
-}
+  "green": "#82c300",
+};
 
-export default colors
+export default colors;

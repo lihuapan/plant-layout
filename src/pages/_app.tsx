@@ -5,10 +5,7 @@ import Layout from '../component/Layout'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-    >
+    <MantineProvider withGlobalStyles withNormalizeCSS>
       <Layout>
         <Component {...pageProps} />
       </Layout>

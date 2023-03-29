@@ -1,7 +1,5 @@
-import WIP from "../component/WIP";
+import WIP from '../component/WIP'
 
 export default function Chain() {
-  return (
-    <WIP />
-  )
+  return <WIP />
 }
