@@ -11,7 +11,7 @@ import {
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useRef } from 'react'
-import colors from '../color'
+import colors from '../data/color'
 
 export default function Index() {
   const ref = useRef<HTMLInputElement>(null)

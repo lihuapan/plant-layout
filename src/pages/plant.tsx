@@ -1,7 +1,7 @@
 import { Box, Stack, Text, Title, Tooltip } from '@mantine/core'
 import PlantImg from '../asset/plant.png'
-import colors from '../color'
-import { MachineProp, mockMachines } from '../data'
+import colors from '@data/color'
+import { MachineProp, mockMachines } from '@data/machine'
 
 export default function Plant() {
   return (
