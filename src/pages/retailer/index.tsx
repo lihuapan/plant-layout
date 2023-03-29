@@ -1,15 +1,30 @@
 import { RetailerWithId, retailers } from '@data/retailer'
-import { Card, Container, Image, SimpleGrid, Stack, Title } from '@mantine/core'
-import colors from '@data/color'
+import {
+  Card,
+  Container,
+  Image,
+  SimpleGrid,
+  Stack,
+  Title,
+  useMantineTheme
+} from '@mantine/core'
 
 export default function Retailer() {
+  const t = useMantineTheme()
+
   return (
     <Container my="2rem">
       <Stack>
-        <Title order={2} color={colors.dark} mb="lg">
+        <Title order={2} mb="lg">
           Retailer Dashboards
         </Title>
-        <SimpleGrid cols={3}>
+        <SimpleGrid
+          breakpoints={[
+            { maxWidth: t.breakpoints.xs, cols: 1 },
+            { maxWidth: t.breakpoints.sm, cols: 2 },
+            { minWidth: t.breakpoints.sm, cols: 3 }
+          ]}
+        >
           {Object.entries(retailers).map(([k, v]) => {
             return <RetailerCard key={k} id={k} {...v} />
           })}

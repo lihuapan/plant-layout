@@ -1,6 +1,12 @@
-import { Box, Stack, Text, Title, Tooltip } from '@mantine/core'
+import {
+  Box,
+  Stack,
+  Text,
+  Title,
+  Tooltip,
+  useMantineTheme
+} from '@mantine/core'
 import PlantImg from '../asset/plant.png'
-import colors from '@data/color'
 import { MachineProp, mockMachines } from '@data/machine'
 
 export default function Plant() {
@@ -56,22 +62,24 @@ type Void = { [k: string]: never }
 const Empty: Void = {}
 
 function Machine<T extends object>(data: MachineProp<T>) {
+  const t = useMantineTheme()
+  const i = t.fn.primaryShade()
   let color
   switch (data.datum?.status) {
     case undefined: {
-      color = colors.white
+      color = t.colors.gray[i]
       break
     }
     case 'ok': {
-      color = '#75C53C'
+      color = t.colors.green[i]
       break
     }
     case 'warning': {
-      color = '#F9B82C'
+      color = t.colors.yellow[i]
       break
     }
     case 'error': {
-      color = '#CA3E31'
+      color = t.colors.orange[i]
       break
     }
   }

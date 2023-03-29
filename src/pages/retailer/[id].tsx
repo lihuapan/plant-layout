@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 
 import { Retailer as IRetailer, retailers } from '@data/retailer'
-import WIP from '@comp/WIP'
+import { Anchor, Breadcrumbs, Container, Stack } from '@mantine/core'
 
 interface Props {
   id: string
@@ -39,6 +39,19 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default function Retailer({ id }: Props) {
-  return <WIP />
+export default function Retailer({ id, content }: Props) {
+  const items = [{ title: 'Retailers', href: '/retailer' }, { title: id }].map(
+    (item, index) => (
+      <Anchor href={item.href} key={index}>
+        {item.title}
+      </Anchor>
+    )
+  )
+  return (
+    <Container>
+      <Stack>
+        <Breadcrumbs>{items}</Breadcrumbs>
+      </Stack>
+    </Container>
+  )
 }

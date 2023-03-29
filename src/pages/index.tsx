@@ -11,7 +11,7 @@ import {
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useRef } from 'react'
-import colors from '../data/color'
+// import colors from '../data/color'
 
 export default function Index() {
   const ref = useRef<HTMLInputElement>(null)
@@ -27,14 +27,11 @@ export default function Index() {
       <Box w="100%" py="5rem">
         <Container>
           <Stack>
-            <Title order={1} color={colors.dark}>
-              Tropicana Data Services
-            </Title>
+            <Title order={1}>Tropicana Data Services</Title>
             <Text
               style={{
                 fontSize: '1.1rem'
               }}
-              color={colors.dark}
             >
               The portal to view, manage and consume datasets.
             </Text>
@@ -49,6 +46,7 @@ export default function Index() {
                   flexGrow: 1,
                   boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
                 }}
+                color="green"
                 onKeyUp={(e: KeyboardEvent<Element>) => {
                   if (e.key === 'Enter') {
                     search()
@@ -57,12 +55,10 @@ export default function Index() {
               />
               <Button
                 size="md"
+                color="yellow"
                 styles={theme => ({
                   root: {
-                    'background': colors.green,
-                    '&:not([data-disabled])': theme.fn.hover({
-                      backgroundColor: theme.fn.darken(colors.green, 0.05)
-                    })
+                    boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
                   }
                 })}
                 onClick={search}
