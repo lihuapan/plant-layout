@@ -6,7 +6,7 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
-import PlantImg from '../asset/plant.png'
+
 import { MachineProp, mockMachines } from '@data/machine'
 
 export default function Plant() {
@@ -30,7 +30,7 @@ const PlantLayout = () => {
   return (
     <Box
       sx={{
-        background: `url(${PlantImg.src})`,
+        background: `url(/plant.png)`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
         width: 'min(850px, 100%)',

@@ -34,7 +34,7 @@ export default function Retailer() {
   )
 }
 
-function RetailerCard({ id, logo }: RetailerWithId) {
+function RetailerCard({ id }: RetailerWithId) {
   return (
     <Card
       shadow="sm"
@@ -50,7 +50,13 @@ function RetailerCard({ id, logo }: RetailerWithId) {
         }
       }}
     >
-      <Image alt={`${id} logo`} src={logo} height={100} fit="contain" px="md" />
+      <Image
+        alt={`${id} logo`}
+        src={`/logos/${id}.svg`}
+        height={80}
+        fit="contain"
+        p="md"
+      />
     </Card>
   )
 }
