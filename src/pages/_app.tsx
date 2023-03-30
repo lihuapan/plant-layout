@@ -20,7 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
           Text: {
             styles: theme => ({
               root: {
-                color: theme.colors.dark[theme.fn.primaryShade()]
+                ':is(div)': {
+                  color: theme.colors.dark[theme.fn.primaryShade()]
+                }
               }
             })
           }

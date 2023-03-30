@@ -4,9 +4,11 @@ import {
   Container,
   Group,
   Input,
+  MediaQuery,
   Stack,
   Text,
-  Title
+  Title,
+  useMantineTheme
 } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
@@ -21,6 +23,7 @@ export default function Index() {
       router.push(`https://www.google.com/search?q=${ref.current.value}`)
     }
   }
+  const theme = useMantineTheme()
 
   return (
     <Stack spacing={36}>
@@ -36,7 +39,12 @@ export default function Index() {
               The portal to view, manage and consume datasets.
             </Text>
 
-            <Group align="flex-end" w="min(max(66%, 30rem), 90vw)" mt="2rem">
+            <Group
+              align="flex-end"
+              w={`min(max(66%, ${theme.breakpoints.sm}), 100%)`}
+              mt="2rem"
+              noWrap
+            >
               <Input
                 ref={ref}
                 size="md"
@@ -53,18 +61,45 @@ export default function Index() {
                   }
                 }}
               />
-              <Button
-                size="md"
-                color="yellow"
-                styles={theme => ({
-                  root: {
-                    boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
-                  }
-                })}
-                onClick={search}
+              <MediaQuery
+                smallerThan={'xs'}
+                styles={{
+                  display: 'none'
+                }}
               >
-                Search
-              </Button>
+                <Button
+                  size="md"
+                  color="yellow"
+                  styles={{
+                    root: {
+                      boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
+                    }
+                  }}
+                  onClick={search}
+                  leftIcon={<IconSearch size={14} />}
+                >
+                  Search
+                </Button>
+              </MediaQuery>
+              <MediaQuery
+                largerThan={'xs'}
+                styles={{
+                  display: 'none'
+                }}
+              >
+                <Button
+                  size="md"
+                  color="yellow"
+                  styles={{
+                    root: {
+                      boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
+                    }
+                  }}
+                  onClick={search}
+                >
+                  <IconSearch size={16} />
+                </Button>
+              </MediaQuery>
             </Group>
           </Stack>
         </Container>
