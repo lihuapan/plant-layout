@@ -9,10 +9,12 @@ import {
   retailers
 } from '@data/retailer'
 import { SkuPerformance } from '@data/retailer'
+
 import {
   Anchor,
   Box,
   Breadcrumbs,
+  Card,
   SimpleGrid,
   Stack,
   Table,
@@ -21,6 +23,7 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { Line } from '@pages/plant'
 import centroid from '@turf/centroid'
 import { GetStaticProps } from 'next'
@@ -100,6 +103,8 @@ function StatSummary({
   data: Record<string, RetailerSummary>
 }) {
   const t = useMantineTheme()
+  const largerThanSM = useMediaQuery(t.fn.largerThan('sm'))
+  const largerThanMD = useMediaQuery(`(min-width: ${t.breakpoints.md})`)
 
   return (
     <SimpleGrid
@@ -119,7 +124,7 @@ function StatSummary({
             withArrow
             color='dark'
           >
-            <Box bg='green' display={'inline-block'} pos='relative'>
+            <Card bg='green' display={'inline-block'} pos='relative' shadow='sm'>
               <Box
                 sx={{
                   marginTop: 'min(80%, 12rem)'
@@ -137,7 +142,7 @@ function StatSummary({
                 <Text
                   span
                   color='light'
-                  size='clamp(0.8em, 4vmin, 1.5em)'
+                  size='clamp(1.2rem, 4vw - 1rem, 1.5rem)'
                   align='center'
                   sx={{
                     whiteSpace: 'nowrap'
@@ -164,7 +169,7 @@ function StatSummary({
                   </Text>
                 )}
               </Stack>
-            </Box>
+            </Card>
           </Tooltip>
         )
       })}
