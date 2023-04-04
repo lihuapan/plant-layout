@@ -1,21 +1,13 @@
 import { RetailerWithId, retailers } from '@data/retailer'
-import {
-  Card,
-  Container,
-  Image,
-  SimpleGrid,
-  Stack,
-  Title,
-  useMantineTheme
-} from '@mantine/core'
+import { Card, Container, Image, SimpleGrid, Stack, Title, useMantineTheme } from '@mantine/core'
 
 export default function Retailer() {
   const t = useMantineTheme()
 
   return (
-    <Container my="2rem">
+    <Container my='2rem'>
       <Stack>
-        <Title order={2} mb="lg">
+        <Title order={2} mb='lg'>
           Retailer Dashboards
         </Title>
         <SimpleGrid
@@ -37,14 +29,14 @@ export default function Retailer() {
 function RetailerCard({ id }: RetailerWithId) {
   return (
     <Card
-      shadow="sm"
-      padding="lg"
-      radius="md"
+      shadow='sm'
+      padding='lg'
+      radius='md'
       withBorder
-      component="a"
+      component='a'
       href={`/retailer/${id}`}
       sx={{
-        'transition': 'transform 0.2s ease-in-out',
+        transition: 'transform 0.2s ease-in-out',
         ':hover': {
           transform: 'scale(1.02)'
         }
@@ -54,8 +46,8 @@ function RetailerCard({ id }: RetailerWithId) {
         alt={`${id} logo`}
         src={`/logos/${id}.svg`}
         height={80}
-        fit="contain"
-        p="md"
+        fit='contain'
+        p='md'
       />
     </Card>
   )

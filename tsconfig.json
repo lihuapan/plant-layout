@@ -30,8 +30,11 @@
       ],
       "@data/*": [
         "data/*"
+      ],
+      "@util": [
+        "util"
       ]
-    },
+    }
   },
   "include": [
     "src",

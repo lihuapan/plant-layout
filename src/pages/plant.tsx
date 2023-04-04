@@ -1,20 +1,13 @@
-import {
-  Box,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-  useMantineTheme
-} from '@mantine/core'
 import { MachineProp, mockMachines } from '@data/machine'
+import { Box, Stack, Text, Title, Tooltip, useMantineTheme } from '@mantine/core'
 import PlantImg from '../../public/plant.png'
 // import PlantImg from '../../public/plant.svg'
 
 export default function Plant() {
   return (
     <Stack
-      w="100%"
-      h="100%"
+      w='100%'
+      h='100%'
       style={{
         justifyContent: 'center',
         alignItems: 'center',
@@ -39,9 +32,7 @@ const PlantLayout = () => {
         position: 'relative'
       }}
     >
-      {mockMachines().map((m, i) => (
-        <Machine {...m} key={i} />
-      ))}
+      {mockMachines().map((m, i) => <Machine {...m} key={i} />)}
     </Box>
   )
 }
@@ -88,10 +79,8 @@ function Machine<T extends object>(data: MachineProp<T>) {
     <Tooltip.Floating
       label={
         <Stack spacing={0}>
-          <Line k="ID" v={data.id} />
-          {Object.entries(data.datum ?? Empty).map(([k, v], i) => (
-            <Line k={k} v={v} key={i} />
-          ))}
+          <Line k='ID' v={data.id} />
+          {Object.entries(data.datum ?? Empty).map(([k, v], i) => <Line k={k} v={v} key={i} />)}
         </Stack>
       }
     >

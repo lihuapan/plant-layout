@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Group,
-  Input,
-  MediaQuery,
-  Stack,
-  Text,
-  Title,
-  useMantineTheme
-} from '@mantine/core'
+import { Box, Button, Container, Group, Input, MediaQuery, Stack, Text, Title, useMantineTheme } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useRef } from 'react'
@@ -27,7 +16,7 @@ export default function Index() {
 
   return (
     <Stack spacing={36}>
-      <Box w="100%" py="5rem">
+      <Box w='100%' py='5rem'>
         <Container>
           <Stack>
             <Title order={1}>Tropicana Data Services</Title>
@@ -40,21 +29,21 @@ export default function Index() {
             </Text>
 
             <Group
-              align="flex-end"
+              align='flex-end'
               w={`min(max(66%, ${theme.breakpoints.sm}), 100%)`}
-              mt="2rem"
+              mt='2rem'
               noWrap
             >
               <Input
                 ref={ref}
-                size="md"
-                placeholder="Name or ID of the dataset"
+                size='md'
+                placeholder='Name or ID of the dataset'
                 icon={<IconSearch size={16} />}
                 style={{
                   flexGrow: 1,
                   boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
                 }}
-                color="green"
+                color='green'
                 onKeyUp={(e: KeyboardEvent<Element>) => {
                   if (e.key === 'Enter') {
                     search()
@@ -68,8 +57,8 @@ export default function Index() {
                 }}
               >
                 <Button
-                  size="md"
-                  color="yellow"
+                  size='md'
+                  color='yellow'
                   styles={{
                     root: {
                       boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
@@ -88,8 +77,8 @@ export default function Index() {
                 }}
               >
                 <Button
-                  size="md"
-                  color="yellow"
+                  size='md'
+                  color='yellow'
                   styles={{
                     root: {
                       boxShadow: '0 2px 4px hsl(0deg 0% 64% / 10%)'
@@ -105,7 +94,8 @@ export default function Index() {
         </Container>
       </Box>
       {/* <Divider my="sm" /> */}
-      {/* <Container>
+      {
+        /* <Container>
           <Stack spacing={'xl'}>
             {categories.map((c, i) => {
               return (
@@ -156,7 +146,8 @@ export default function Index() {
               )
             })}
           </Stack>
-        </Container> */}
+        </Container> */
+      }
     </Stack>
   )
 }
