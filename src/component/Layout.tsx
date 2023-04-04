@@ -18,7 +18,9 @@ export default function Layout(props: { children: ReactNode }) {
   return (
     <Box mih="100vh" bg="light.0">
       <Nav />
-      <Container py="md">{props.children}</Container>
+      <Box py="lg" px="clamp(1em, 5vw, 4em)">
+        {props.children}
+      </Box>
     </Box>
   )
 }
