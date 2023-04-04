@@ -1,13 +1,10 @@
-import { GetStaticProps } from 'next'
-import { useEffect } from 'react'
-import useFitText, { TOptions } from 'use-fit-text'
-
+import { FitText } from '@comp/FitText'
 import WIP from '@comp/WIP'
 import {
-  Retailer as IRetailer,
   RetailerDetail,
   RetailerStat as IRetailerStat,
   RetailerSummary,
+  StatePerformance,
   buildStat,
   retailers
 } from '@data/retailer'
@@ -20,24 +17,27 @@ import {
   Stack,
   Table,
   Text,
-  TextProps,
   Title,
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
+import { Line } from '@pages/plant'
+import centroid from '@turf/centroid'
+import { GetStaticProps } from 'next'
+import { useState } from 'react'
+import { Annotation, ComposableMap, Geographies, Geography, Marker, Point, ZoomableGroup } from 'react-simple-maps'
 
 interface Props {
   id: string
-  content: IRetailer
   stat: IRetailerStat | null
 }
 
 export async function getStaticPaths() {
   return {
-    paths: Object.entries(retailers).map(([key, value]) => {
+    paths: Object.keys(retailers).map(id => {
       return {
         params: {
-          id: key
+          id
         }
       }
     }),
@@ -61,7 +61,6 @@ export const getStaticProps: GetStaticProps<
     // Passed to the page component as props
     props: {
       id: id,
-      content: retailers[id],
       stat: retailers[id]?.data
         ? buildStat(retailers[id].data as RetailerDetail[])
         : null
@@ -69,7 +68,7 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default function Retailer({ id, content, stat }: Props) {
+export default function Retailer({ id, stat }: Props) {
   const breadcrumbItems = [
     { title: 'Retailers', href: '/retailer' },
     { title: id }
@@ -79,23 +78,26 @@ export default function Retailer({ id, content, stat }: Props) {
     </Anchor>
   ))
 
-  useEffect(() => {
-    console.log(content)
-  })
-
   return (
     <Stack spacing='2rem'>
       <Breadcrumbs>{breadcrumbItems}</Breadcrumbs>
-      {stat ? <StatSummary summary={stat.summary} /> : <WIP />}
-      {stat ? <SKUPerformance performance={stat.skuPerf} /> : <WIP />}
+      {stat
+        ? (
+          <>
+            <StatSummary data={stat.summary} />
+            <SKUPerformance data={stat.skuPerf} />
+            <Map data={stat.mapPerf} />
+          </>
+        )
+        : <WIP />}
     </Stack>
   )
 }
 
 function StatSummary({
-  summary
+  data
 }: {
-  summary: Record<string, RetailerSummary>
+  data: Record<string, RetailerSummary>
 }) {
   const t = useMantineTheme()
 
@@ -108,7 +110,7 @@ function StatSummary({
         { minWidth: '100em', cols: 8 }
       ]}
     >
-      {Object.entries(summary).map(([key, item], i) => {
+      {Object.entries(data).map(([key, item], i) => {
         return (
           <Tooltip
             label={item.hover ?? key}
@@ -144,7 +146,6 @@ function StatSummary({
                   {key}
                 </Text>
                 <FitText
-                  text={item.value}
                   color='light'
                   align='center'
                   my='auto'
@@ -154,8 +155,9 @@ function StatSummary({
                   option={{
                     maxFontSize: 300
                   }}
-                />
-
+                >
+                  {item.value}
+                </FitText>
                 {item.aop && (
                   <Text span color='light' align='center'>
                     {item.aop}
@@ -171,9 +173,9 @@ function StatSummary({
 }
 
 function SKUPerformance({
-  performance
+  data
 }: {
-  performance: SkuPerformance[]
+  data: Record<string, SkuPerformance>
 }) {
   return (
     <>
@@ -192,21 +194,27 @@ function SKUPerformance({
             <tr>
               <th>IRI TSA Category</th>
               <th>Retail</th>
-              <th>Store# vs Possible#</th>
+              <th>Store# / Possible#</th>
               <th>Revenue</th>
               <th>Volume Trend</th>
               <th>Shared Trend</th>
             </tr>
           </thead>
           <tbody>
-            {performance.map(element => (
-              <tr key={element.iri_tsa_cat}>
-                <td>{element.iri_tsa_cat}</td>
-                <td>{element.retail}</td>
-                <td>{element.capacityPercentage}</td>
-                <td>{element.revenue}</td>
-                <td>{element.volTrend}</td>
-                <td>{element.sharedTrend}</td>
+            {Object.entries(data).map(([cat, {
+              retail,
+              capacityPercentage,
+              revenue,
+              volTrend,
+              sharedTrend
+            }]) => (
+              <tr key={cat}>
+                <td>{cat}</td>
+                <td>{retail.toFixed(2)}</td>
+                <td>{capacityPercentage}</td>
+                <td>{revenue.toFixed(2)}</td>
+                <td>{volTrend.toFixed(2)}</td>
+                <td>{sharedTrend.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
@@ -216,19 +224,184 @@ function SKUPerformance({
   )
 }
 
-const FitText = ({
-  text,
-  option,
-  ...rest
-}: {
-  text: string
-  option?: TOptions
-} & import('@mantine/utils').PolymorphicComponentProps<'div', TextProps>) => {
-  const { ref, fontSize } = useFitText(option)
+function Map({ data }: { data: Record<string, StatePerformance> }) {
+  interface Zoom {
+    coordinates: Point
+    zoom: number
+  }
+  const geoUrl = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/united-states/us-albers.json'
+  const t = useMantineTheme()
+  const [position, setPosition] = useState<Zoom>({ coordinates: [0, 0], zoom: 1 })
+
+  function handleZoomIn() {
+    if (position.zoom >= 4) return
+    setPosition(pos => ({ ...pos, zoom: pos.zoom * 2 }))
+  }
+
+  function handleZoomOut() {
+    if (position.zoom <= 1) return
+    setPosition(pos => ({ ...pos, zoom: pos.zoom / 2 }))
+  }
+
+  function handleMoveEnd(position: Zoom) {
+    setPosition(position)
+  }
+
+  interface Anno {
+    con: Point
+    text?: Point
+  }
+
+  const adjust: Record<string, Point | Anno> = {
+    WA: [2, -0.5],
+    ID: [0, -1.5],
+    SD: [-1, 0],
+    AZ: [1, 0],
+    AK: [0, 2.5],
+    CA: [1, 0],
+    KY: [1, -0.3],
+    OH: [-.4, -.5],
+    TX: [-1, 1],
+    LA: [-1.7, 0.5],
+    FL: [1, 0],
+    ME: [0, 1],
+    NY: [-.5, .5],
+    MI: [1, -2],
+    WI: [-1, 0],
+    MN: [-1, 0],
+    HI: {
+      con: [10, -20],
+      text: [-2, -4]
+    },
+    VT: {
+      con: [-20, -30],
+      text: [-2, -4]
+    },
+    NH: {
+      con: [-10, -40],
+      text: [-2, -4]
+    },
+
+    RI: {
+      con: [20, 20],
+      text: [10, 10]
+    },
+    MA: {
+      con: [30, 15],
+      text: [12, 12]
+    },
+    CT: {
+      con: [15, 20],
+      text: [7, 10]
+    },
+    NJ: {
+      con: [20, 5],
+      text: [8, 10]
+    },
+    DE: {
+      con: [25, 10],
+      text: [10, 10]
+    },
+    MD: {
+      con: [30, 20],
+      text: [10, 10]
+    }
+  }
 
   return (
-    <Text ref={ref} style={{ fontSize }} {...rest}>
-      {text}
-    </Text>
+    <ComposableMap
+      projection='geoAlbersUsa'
+      style={{
+        maxWidth: '80rem',
+        margin: '0 auto'
+      }}
+    >
+      <ZoomableGroup zoom={position.zoom} center={position.coordinates} onMoveEnd={handleMoveEnd}>
+        <Geographies
+          geography={geoUrl}
+        >
+          {({ geographies }) =>
+            geographies.map(geo => {
+              const state: string = geo.properties.iso_3166_2
+              const stateData: StatePerformance = data[state] ?? {
+                amount: 0,
+                unit: 0,
+                cities: []
+              }
+              let c = centroid(geo).geometry.coordinates as Point
+              let o = adjust[state]
+              const MarkerText = ({ x = 0, y = 0 }: { x?: number; y?: number }) => (
+                <text
+                  x={x}
+                  y={y}
+                  textAnchor='middle'
+                  fill={t.colors.dark[t.fn.primaryShade()]}
+                  fontSize={t.fontSizes.xs}
+                >
+                  {geo.properties.iso_3166_2}
+                </text>
+              )
+              let marker
+              if (Array.isArray(o)) {
+                c = [c[0] + o[0], c[1] + o[1]]
+                marker = (
+                  <Marker coordinates={c}>
+                    <MarkerText />
+                  </Marker>
+                )
+              } else if (o?.con) {
+                marker = (
+                  <Annotation
+                    subject={c}
+                    dx={o.con[0]}
+                    dy={o.con[1]}
+                    connectorProps={{
+                      stroke: t.colors.dark[t.fn.primaryShade()],
+                      strokeWidth: 1,
+                      strokeLinecap: 'round'
+                    }}
+                  >
+                    <MarkerText x={o.text?.[0]} y={o.text?.[1]} />
+                  </Annotation>
+                )
+              } else {
+                marker = (
+                  <Marker coordinates={c}>
+                    <MarkerText />
+                  </Marker>
+                )
+              }
+
+              return (
+                <Tooltip.Floating
+                  key={geo.rsmKey}
+                  label={
+                    <Stack spacing='0'>
+                      <Line k='State' v={geo.properties.iso_3166_2}></Line>
+                      <Line k='Amount' v={stateData.amount.toFixed(2)}></Line>
+                      <Line k='Unit' v={stateData.unit.toFixed(2)}></Line>
+                    </Stack>
+                  }
+                >
+                  <g>
+                    <Geography
+                      geography={geo}
+                      fill={t.colors.light[t.fn.primaryShade()]}
+                      stroke='#000000'
+                      style={{
+                        default: { outline: 'none', transition: 'all 0.3s ease-in-out' },
+                        hover: { outline: 'none', fill: t.colors.yellow[t.fn.primaryShade()] },
+                        pressed: { outline: 'none' }
+                      }}
+                    >
+                    </Geography>
+                    {marker}
+                  </g>
+                </Tooltip.Floating>
+              )
+            })}
+        </Geographies>
+      </ZoomableGroup>
+    </ComposableMap>
   )
 }

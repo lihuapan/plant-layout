@@ -37,9 +37,10 @@ const PlantLayout = () => {
   )
 }
 
-function Line({ k, v }: { k: string; v: string }) {
+export function Line({ k, v }: { k: string; v: string }) {
+  const t = useMantineTheme()
   return (
-    <Text span>
+    <Text span color={t.colors.light[t.fn.primaryShade()]}>
       {k.charAt(0).toUpperCase() + k.slice(1)}
       {': '}
       <Text span fw={700}>

@@ -49,7 +49,7 @@ export const retailers: Retailers = {
   },
   Ahold: {
     website: '',
-    data: ahold.sort(() => 0.5 - Math.random()).slice(0, 100)
+    data: ahold
   },
   "BJ's": {
     website: ''
@@ -69,13 +69,22 @@ export const retailers: Retailers = {
 }
 
 export interface SkuPerformance {
-  iri_tsa_cat: string
   retail: number
   capacityPercentage: string
   volTrend: number
   revenue: number
   sharedTrend: number
 }
+
+export interface StatePerformance {
+  unit: number
+  amount: number
+  cities: Record<string, {
+    unit: number
+    amount: number
+  }>
+}
+
 export interface RetailerSummary {
   value: string
   aop?: string
@@ -84,10 +93,40 @@ export interface RetailerSummary {
 
 export interface RetailerStat {
   summary: Record<string, RetailerSummary>
-  skuPerf: SkuPerformance[]
+  skuPerf: Record<string, SkuPerformance>
+  mapPerf: Record<string, StatePerformance>
 }
 
-function analyzeData(data: RetailerDetail[]): SkuPerformance[] {
+function buildMapPerf(data: RetailerDetail[]): Record<string, StatePerformance> {
+  const mapPerf: Record<string, StatePerformance> = {}
+  data.forEach(x => {
+    const state = x.STATE
+    if (!mapPerf[state]) {
+      mapPerf[state] = {
+        unit: 0,
+        amount: 0,
+        cities: {}
+      }
+    }
+    const s = mapPerf[state]
+    s.unit += x.STORE_SALES_UNITS ?? 0
+    s.amount += x.STORE_SALES_AMOUNT ?? 0
+    const city = x.CITY
+    if (!s.cities[city]) {
+      s.cities[city] = {
+        unit: 0,
+        amount: 0
+      }
+    }
+    const c = s.cities[city]
+    c.unit += x.STORE_SALES_UNITS ?? 0
+    c.amount += x.STORE_SALES_AMOUNT ?? 0
+  })
+
+  return mapPerf
+}
+
+function buildSkuPerf(data: RetailerDetail[]): Record<string, SkuPerformance> {
   const skuPerf: Record<string, { stores: Set<string>; retail: number }> = {}
   const distinctStores = new Set(data.map(x => x.STOR_ID)).size
   data.forEach(x => {
@@ -103,16 +142,15 @@ function analyzeData(data: RetailerDetail[]): SkuPerformance[] {
     s.stores.add(x.STOR_ID)
   })
 
-  return Object.entries(skuPerf).map(([sku, { stores, retail }]) => {
-    return {
-      iri_tsa_cat: sku,
+  return Object.fromEntries(
+    Object.entries(skuPerf).map(([iri_tsa_cat, { stores, retail }]) => [iri_tsa_cat, {
       retail,
       capacityPercentage: `${stores.size}/${distinctStores}`,
       volTrend: 0,
       revenue: 0,
       sharedTrend: 0
-    }
-  })
+    }])
+  )
 }
 
 export function buildStat(data: RetailerDetail[]): RetailerStat {
@@ -143,6 +181,7 @@ export function buildStat(data: RetailerDetail[]): RetailerStat {
         value: '99.9%'
       }
     },
-    skuPerf: analyzeData(data)
+    skuPerf: buildSkuPerf(data),
+    mapPerf: buildMapPerf(data)
   }
 }
