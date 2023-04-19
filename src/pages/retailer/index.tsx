@@ -1,5 +1,13 @@
 import { RetailerWithId, retailers } from '@data/retailer'
-import { Card, Container, Image, SimpleGrid, Stack, Title, useMantineTheme } from '@mantine/core'
+import {
+  Card,
+  Container,
+  Image,
+  SimpleGrid,
+  Stack,
+  Title,
+  useMantineTheme
+} from '@mantine/core'
 
 export default function Retailer() {
   const t = useMantineTheme()
@@ -36,7 +44,7 @@ function RetailerCard({ id }: RetailerWithId) {
       component='a'
       href={`/retailer/${id}`}
       sx={{
-        transition: 'transform 0.2s ease-in-out',
+        'transition': 'transform 0.2s ease-in-out',
         ':hover': {
           transform: 'scale(1.02)'
         }

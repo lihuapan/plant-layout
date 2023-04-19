@@ -38,26 +38,26 @@ export type RetailerWithId = Retailer & { id: string }
 export type Retailers = Record<string, Retailer>
 
 export const retailers: Retailers = {
-  Walmart: {
+  'Walmart': {
     website: 'https://www.walmart.com'
   },
-  Target: {
+  'Target': {
     website: 'https://www.target.com'
   },
-  Walgreens: {
+  'Walgreens': {
     website: 'https://www.walgreens.com'
   },
-  Ahold: {
+  'Ahold': {
     website: '',
     data: ahold
   },
   "BJ's": {
     website: ''
   },
-  Costco: {
+  'Costco': {
     website: ''
   },
-  Meijer: {
+  'Meijer': {
     website: ''
   },
   "Sam's Club": {
@@ -79,10 +79,13 @@ export interface SkuPerformance {
 export interface StatePerformance {
   unit: number
   amount: number
-  cities: Record<string, {
-    unit: number
-    amount: number
-  }>
+  cities: Record<
+    string,
+    {
+      unit: number
+      amount: number
+    }
+  >
 }
 
 export interface RetailerSummary {
@@ -97,7 +100,9 @@ export interface RetailerStat {
   mapPerf: Record<string, StatePerformance>
 }
 
-function buildMapPerf(data: RetailerDetail[]): Record<string, StatePerformance> {
+function buildMapPerf(
+  data: RetailerDetail[]
+): Record<string, StatePerformance> {
   const mapPerf: Record<string, StatePerformance> = {}
   data.forEach(x => {
     const state = x.STATE
@@ -143,13 +148,16 @@ function buildSkuPerf(data: RetailerDetail[]): Record<string, SkuPerformance> {
   })
 
   return Object.fromEntries(
-    Object.entries(skuPerf).map(([iri_tsa_cat, { stores, retail }]) => [iri_tsa_cat, {
-      retail,
-      capacityPercentage: `${stores.size}/${distinctStores}`,
-      volTrend: 0,
-      revenue: 0,
-      sharedTrend: 0
-    }])
+    Object.entries(skuPerf).map(([iri_tsa_cat, { stores, retail }]) => [
+      iri_tsa_cat,
+      {
+        retail,
+        capacityPercentage: `${stores.size}/${distinctStores}`,
+        volTrend: 0,
+        revenue: 0,
+        sharedTrend: 0
+      }
+    ])
   )
 }
 
@@ -162,7 +170,7 @@ export function buildStat(data: RetailerDetail[]): RetailerStat {
       'TBG Share': {
         value: 'MSC SPJ'
       },
-      YTD: {
+      'YTD': {
         value: '341,954'
       },
       'Last Period': {
@@ -174,7 +182,7 @@ export function buildStat(data: RetailerDetail[]): RetailerStat {
       'Last Period 2': {
         value: '13,442'
       },
-      Foobar: {
+      'Foobar': {
         value: 'A+'
       },
       'Service Level': {

@@ -28,7 +28,15 @@ import { Line } from '@pages/plant'
 import centroid from '@turf/centroid'
 import { GetStaticProps } from 'next'
 import { useState } from 'react'
-import { Annotation, ComposableMap, Geographies, Geography, Marker, Point, ZoomableGroup } from 'react-simple-maps'
+import {
+  Annotation,
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+  Point,
+  ZoomableGroup
+} from 'react-simple-maps'
 
 interface Props {
   id: string
@@ -84,24 +92,20 @@ export default function Retailer({ id, stat }: Props) {
   return (
     <Stack spacing='2rem'>
       <Breadcrumbs>{breadcrumbItems}</Breadcrumbs>
-      {stat
-        ? (
-          <>
-            <StatSummary data={stat.summary} />
-            <SKUPerformance data={stat.skuPerf} />
-            <Map data={stat.mapPerf} />
-          </>
-        )
-        : <WIP />}
+      {stat ? (
+        <>
+          <StatSummary data={stat.summary} />
+          <SKUPerformance data={stat.skuPerf} />
+          <Map data={stat.mapPerf} />
+        </>
+      ) : (
+        <WIP />
+      )}
     </Stack>
   )
 }
 
-function StatSummary({
-  data
-}: {
-  data: Record<string, RetailerSummary>
-}) {
+function StatSummary({ data }: { data: Record<string, RetailerSummary> }) {
   const t = useMantineTheme()
   const largerThanSM = useMediaQuery(t.fn.largerThan('sm'))
   const largerThanMD = useMediaQuery(`(min-width: ${t.breakpoints.md})`)
@@ -124,7 +128,12 @@ function StatSummary({
             withArrow
             color='dark'
           >
-            <Card bg='green' display={'inline-block'} pos='relative' shadow='sm'>
+            <Card
+              bg='green'
+              display={'inline-block'}
+              pos='relative'
+              shadow='sm'
+            >
               <Box
                 sx={{
                   marginTop: 'min(80%, 12rem)'
@@ -177,11 +186,7 @@ function StatSummary({
   )
 }
 
-function SKUPerformance({
-  data
-}: {
-  data: Record<string, SkuPerformance>
-}) {
+function SKUPerformance({ data }: { data: Record<string, SkuPerformance> }) {
   return (
     <>
       <Title order={2}>Key SKU Performance</Title>
@@ -191,10 +196,7 @@ function SKUPerformance({
           scrollbarWidth: 'none'
         }}
       >
-        <Table
-          highlightOnHover
-          miw='960px'
-        >
+        <Table highlightOnHover miw='960px'>
           <thead>
             <tr>
               <th>IRI TSA Category</th>
@@ -206,22 +208,21 @@ function SKUPerformance({
             </tr>
           </thead>
           <tbody>
-            {Object.entries(data).map(([cat, {
-              retail,
-              capacityPercentage,
-              revenue,
-              volTrend,
-              sharedTrend
-            }]) => (
-              <tr key={cat}>
-                <td>{cat}</td>
-                <td>{retail.toFixed(2)}</td>
-                <td>{capacityPercentage}</td>
-                <td>{revenue.toFixed(2)}</td>
-                <td>{volTrend.toFixed(2)}</td>
-                <td>{sharedTrend.toFixed(2)}</td>
-              </tr>
-            ))}
+            {Object.entries(data).map(
+              ([
+                cat,
+                { retail, capacityPercentage, revenue, volTrend, sharedTrend }
+              ]) => (
+                <tr key={cat}>
+                  <td>{cat}</td>
+                  <td>{retail.toFixed(2)}</td>
+                  <td>{capacityPercentage}</td>
+                  <td>{revenue.toFixed(2)}</td>
+                  <td>{volTrend.toFixed(2)}</td>
+                  <td>{sharedTrend.toFixed(2)}</td>
+                </tr>
+              )
+            )}
           </tbody>
         </Table>
       </Box>
@@ -234,9 +235,13 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
     coordinates: Point
     zoom: number
   }
-  const geoUrl = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/united-states/us-albers.json'
+  const geoUrl =
+    'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/united-states/us-albers.json'
   const t = useMantineTheme()
-  const [position, setPosition] = useState<Zoom>({ coordinates: [0, 0], zoom: 1 })
+  const [position, setPosition] = useState<Zoom>({
+    coordinates: [0, 0],
+    zoom: 1
+  })
 
   function handleZoomIn() {
     if (position.zoom >= 4) return
@@ -265,12 +270,12 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
     AK: [0, 2.5],
     CA: [1, 0],
     KY: [1, -0.3],
-    OH: [-.4, -.5],
+    OH: [-0.4, -0.5],
     TX: [-1, 1],
     LA: [-1.7, 0.5],
     FL: [1, 0],
     ME: [0, 1],
-    NY: [-.5, .5],
+    NY: [-0.5, 0.5],
     MI: [1, -2],
     WI: [-1, 0],
     MN: [-1, 0],
@@ -321,10 +326,12 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
         margin: '0 auto'
       }}
     >
-      <ZoomableGroup zoom={position.zoom} center={position.coordinates} onMoveEnd={handleMoveEnd}>
-        <Geographies
-          geography={geoUrl}
-        >
+      <ZoomableGroup
+        zoom={position.zoom}
+        center={position.coordinates}
+        onMoveEnd={handleMoveEnd}
+      >
+        <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map(geo => {
               const state: string = geo.properties.iso_3166_2
@@ -335,7 +342,13 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
               }
               let c = centroid(geo).geometry.coordinates as Point
               let o = adjust[state]
-              const MarkerText = ({ x = 0, y = 0 }: { x?: number; y?: number }) => (
+              const MarkerText = ({
+                x = 0,
+                y = 0
+              }: {
+                x?: number
+                y?: number
+              }) => (
                 <text
                   x={x}
                   y={y}
@@ -394,17 +407,23 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
                       fill={t.colors.light[t.fn.primaryShade()]}
                       stroke='#000000'
                       style={{
-                        default: { outline: 'none', transition: 'all 0.3s ease-in-out' },
-                        hover: { outline: 'none', fill: t.colors.yellow[t.fn.primaryShade()] },
+                        default: {
+                          outline: 'none',
+                          transition: 'all 0.3s ease-in-out'
+                        },
+                        hover: {
+                          outline: 'none',
+                          fill: t.colors.yellow[t.fn.primaryShade()]
+                        },
                         pressed: { outline: 'none' }
                       }}
-                    >
-                    </Geography>
+                    ></Geography>
                     {marker}
                   </g>
                 </Tooltip.Floating>
               )
-            })}
+            })
+          }
         </Geographies>
       </ZoomableGroup>
     </ComposableMap>

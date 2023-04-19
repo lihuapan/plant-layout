@@ -1,4 +1,15 @@
-import { Box, Button, Container, Group, Input, MediaQuery, Stack, Text, Title, useMantineTheme } from '@mantine/core'
+import {
+  Box,
+  Button,
+  Container,
+  Group,
+  Input,
+  MediaQuery,
+  Stack,
+  Text,
+  Title,
+  useMantineTheme
+} from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { KeyboardEvent, useRef } from 'react'
@@ -94,8 +105,7 @@ export default function Index() {
         </Container>
       </Box>
       {/* <Divider my="sm" /> */}
-      {
-        /* <Container>
+      {/* <Container>
           <Stack spacing={'xl'}>
             {categories.map((c, i) => {
               return (
@@ -146,8 +156,7 @@ export default function Index() {
               )
             })}
           </Stack>
-        </Container> */
-      }
+        </Container> */}
     </Stack>
   )
 }

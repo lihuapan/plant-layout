@@ -1,4 +1,12 @@
-import { Box, Burger, Container, Drawer, Group, Tabs, useMantineTheme } from '@mantine/core'
+import {
+  Box,
+  Burger,
+  Container,
+  Drawer,
+  Group,
+  Tabs,
+  useMantineTheme
+} from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconExternalLink } from '@tabler/icons-react'
 import Image from 'next/image'
@@ -39,16 +47,16 @@ function Nav() {
       color='orange'
       styles={t => ({
         tab: {
-          color: t.colors.dark[t.fn.primaryShade()],
-          border: 'none',
-          fontSize: '1rem',
+          'color': t.colors.dark[t.fn.primaryShade()],
+          'border': 'none',
+          'fontSize': '1rem',
           ':hover': {
             color: t.colors.orange[t.fn.primaryShade()]
           },
           '&[data-active]': {
             borderColor: t.colors.orange[t.fn.primaryShade()]
           },
-          minHeight: '77px',
+          'minHeight': '77px',
           [t.fn.largerThan('sm')]: {
             borderBottom: `4px solid transparent`,
             transition: 'all 0.1s ease-in-out'
