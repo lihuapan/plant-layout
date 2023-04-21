@@ -1,7 +1,6 @@
 import {
   Box,
   Burger,
-  Container,
   Drawer,
   Group,
   Tabs,
@@ -29,7 +28,7 @@ function Nav() {
   const [opened, setOpened] = useState(false)
   const router = useRouter()
   const theme = useMantineTheme()
-  const nonSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm})`)
+  const largerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm})`)
 
   const NavBar = (
     <Tabs
@@ -40,7 +39,7 @@ function Nav() {
       }}
       variant='outline'
       radius='xs'
-      orientation={nonSm ? 'horizontal' : 'vertical'}
+      orientation={largerThanSm ? 'horizontal' : 'vertical'}
       style={{
         flexGrow: 1
       }}
@@ -76,10 +75,11 @@ function Nav() {
     >
       <Tabs.List pr='1rem'>
         <Tabs.Tab value='/'>Homepage</Tabs.Tab>
-        <Tabs.Tab value='/power_bi'>Power BI</Tabs.Tab>
+        {/* <Tabs.Tab value='/power_bi'>Power BI</Tabs.Tab> */}
         <Tabs.Tab value='/plant'>Plant</Tabs.Tab>
         <Tabs.Tab value='/retailer'>Retailers</Tabs.Tab>
-        {/* <Tabs.Tab value="/chain">Supply Chain</Tabs.Tab> */}
+        <Tabs.Tab value='/datasource'>Data Source</Tabs.Tab>
+        <Tabs.Tab value='/product'>Product Category</Tabs.Tab>
         <Tabs.Tab
           sx={theme => ({
             [theme.fn.largerThan('sm')]: {
@@ -99,7 +99,6 @@ function Nav() {
     <Group
       bg='light'
       style={{
-        gap: '0',
         position: 'sticky',
         top: 0,
         left: 0,
@@ -123,8 +122,8 @@ function Nav() {
         </Link>
       </Box>
 
-      {nonSm && NavBar}
-      {!nonSm && (
+      {largerThanSm && NavBar}
+      {!largerThanSm && (
         <>
           <Burger
             opened={opened}

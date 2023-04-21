@@ -1,10 +1,12 @@
 import {
   Box,
   Button,
+  Card,
   Container,
   Group,
   Input,
   MediaQuery,
+  SimpleGrid,
   Stack,
   Text,
   Title,
@@ -23,13 +25,39 @@ export default function Index() {
       router.push(`https://www.google.com/search?q=${ref.current.value}`)
     }
   }
-  const theme = useMantineTheme()
+  const t = useMantineTheme()
 
   return (
     <Stack spacing={36}>
       <Box w='100%' py='5rem'>
         <Container>
           <Stack>
+            <SimpleGrid
+              breakpoints={[
+                { maxWidth: t.breakpoints.xs, cols: 1 },
+                { maxWidth: t.breakpoints.sm, cols: 2 },
+                { minWidth: t.breakpoints.sm, cols: 3 }
+              ]}
+            >
+              {new Array(3).fill(0).map((v, i) => (
+                <Card
+                  key={i}
+                  shadow='sm'
+                  padding='lg'
+                  radius='md'
+                  withBorder
+                  component='a'
+                  mih='10em'
+                  sx={{
+                    'transition': 'transform 0.2s ease-in-out',
+                    ':hover': {
+                      transform: 'scale(1.02)'
+                    }
+                  }}
+                ></Card>
+              ))}
+            </SimpleGrid>
+            <Box h='5em' />
             <Title order={1}>Tropicana Data Services</Title>
             <Text
               style={{
@@ -41,7 +69,7 @@ export default function Index() {
 
             <Group
               align='flex-end'
-              w={`min(max(66%, ${theme.breakpoints.sm}), 100%)`}
+              w={`min(max(66%, ${t.breakpoints.sm}), 100%)`}
               mt='2rem'
               noWrap
             >

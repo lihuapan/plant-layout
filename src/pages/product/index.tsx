@@ -1,4 +1,4 @@
-import { RetailerWithId, retailers } from '@data/retailer'
+import { ProductCategory, productCategories } from '@data/product'
 import {
   Card,
   Container,
@@ -17,7 +17,7 @@ export default function Retailer() {
     <Container my='2rem'>
       <Stack>
         <Title order={2} mb='lg'>
-          Retailer Dashboards
+          Product Category
         </Title>
         <SimpleGrid
           breakpoints={[
@@ -26,8 +26,8 @@ export default function Retailer() {
             { minWidth: t.breakpoints.sm, cols: 3 }
           ]}
         >
-          {Object.entries(retailers).map(([k, v]) => {
-            return <RetailerCard key={k} id={k} {...v} />
+          {Object.entries(productCategories).map(([k, v]) => {
+            return <ProductCard key={k} id={k} {...v} />
           })}
         </SimpleGrid>
       </Stack>
@@ -35,9 +35,9 @@ export default function Retailer() {
   )
 }
 
-function RetailerCard({ id }: RetailerWithId) {
+function ProductCard({ id }: ProductCategory & { id: string }) {
   return (
-    <Link href={`/retailer/${id}`} passHref legacyBehavior>
+    <Link href={`/product/${id}`} passHref legacyBehavior>
       <Card
         shadow='sm'
         padding='lg'
@@ -53,7 +53,7 @@ function RetailerCard({ id }: RetailerWithId) {
       >
         <Image
           alt={`${id} logo`}
-          src={`/image/logos/${id}.svg`}
+          src={`/image/product/${id}.png`}
           height={80}
           fit='contain'
           p='md'

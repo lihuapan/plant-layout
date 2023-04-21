@@ -7,8 +7,7 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
-import PlantImg from '../../public/plant.png'
-// import PlantImg from '../../public/plant.svg'
+import PlantImg from '../../public/image/plant.png'
 
 export default function Plant() {
   return (

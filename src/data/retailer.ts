@@ -1,5 +1,5 @@
 import ahold from '../../public/Ahold.json'
-import { id } from '../util'
+
 export interface Retailer {
   website?: string
   data?: RetailerDetail[]

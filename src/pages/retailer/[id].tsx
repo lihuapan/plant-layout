@@ -23,10 +23,10 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
 import { Line } from '@pages/plant'
 import centroid from '@turf/centroid'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 import { useState } from 'react'
 import {
   Annotation,
@@ -82,11 +82,11 @@ export const getStaticProps: GetStaticProps<
 export default function Retailer({ id, stat }: Props) {
   const breadcrumbItems = [
     { title: 'Retailers', href: '/retailer' },
-    { title: id }
+    { title: id, href: `/retailer/${id}` }
   ].map((item, index) => (
-    <Anchor href={item.href} key={index}>
-      {item.title}
-    </Anchor>
+    <Link key={index} href={item.href} legacyBehavior passHref>
+      <Anchor>{item.title}</Anchor>
+    </Link>
   ))
 
   return (
@@ -107,8 +107,6 @@ export default function Retailer({ id, stat }: Props) {
 
 function StatSummary({ data }: { data: Record<string, RetailerSummary> }) {
   const t = useMantineTheme()
-  const largerThanSM = useMediaQuery(t.fn.largerThan('sm'))
-  const largerThanMD = useMediaQuery(`(min-width: ${t.breakpoints.md})`)
 
   return (
     <SimpleGrid

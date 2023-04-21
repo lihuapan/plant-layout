@@ -1,4 +1,4 @@
-import { MantineProvider, Tuple } from '@mantine/core'
+import { MantineProvider } from '@mantine/core'
 import { AppProps } from 'next/app'
 import Layout from '../component/Layout'
 // import Layout from '../component/Layout'

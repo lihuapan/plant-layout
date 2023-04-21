@@ -1,4 +1,4 @@
-import { RetailerWithId, retailers } from '@data/retailer'
+import { DataSource, dataSources } from '@data/datasoruce'
 import {
   Card,
   Container,
@@ -10,14 +10,14 @@ import {
 } from '@mantine/core'
 import Link from 'next/link'
 
-export default function Retailer() {
+export default function DataSources() {
   const t = useMantineTheme()
 
   return (
     <Container my='2rem'>
       <Stack>
         <Title order={2} mb='lg'>
-          Retailer Dashboards
+          Data Sources
         </Title>
         <SimpleGrid
           breakpoints={[
@@ -26,8 +26,8 @@ export default function Retailer() {
             { minWidth: t.breakpoints.sm, cols: 3 }
           ]}
         >
-          {Object.entries(retailers).map(([k, v]) => {
-            return <RetailerCard key={k} id={k} {...v} />
+          {Object.entries(dataSources).map(([k, v]) => {
+            return <ProductCard key={k} id={k} {...v} />
           })}
         </SimpleGrid>
       </Stack>
@@ -35,9 +35,9 @@ export default function Retailer() {
   )
 }
 
-function RetailerCard({ id }: RetailerWithId) {
+function ProductCard({ id }: DataSource & { id: string }) {
   return (
-    <Link href={`/retailer/${id}`} passHref legacyBehavior>
+    <Link href={`/datasource/${id}`} passHref legacyBehavior>
       <Card
         shadow='sm'
         padding='lg'
@@ -53,7 +53,7 @@ function RetailerCard({ id }: RetailerWithId) {
       >
         <Image
           alt={`${id} logo`}
-          src={`/image/logos/${id}.svg`}
+          src={`/image/datasource/${id}.png`}
           height={80}
           fit='contain'
           p='md'
