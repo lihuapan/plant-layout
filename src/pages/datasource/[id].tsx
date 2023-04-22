@@ -1,6 +1,7 @@
+import SmartBreadCrumb from '@comp/SmartBreadCrumb'
 import { DataSource, dataSources } from '@data/datasoruce'
 
-import { Stack } from '@mantine/core'
+import { Stack, Text } from '@mantine/core'
 import { GetStaticProps } from 'next'
 
 interface Props {
@@ -51,15 +52,13 @@ export const getStaticProps: GetStaticProps<
 export default function PowerBI({ id }: Props) {
   return (
     <Stack>
-      <iframe
-        style={{
-          boxSizing: 'border-box',
-          width: '100%',
-
-          aspectRatio: '1920 / 1200'
-        }}
-        src='https://app.powerbi.com/view?r=eyJrIjoiZTUzZThhODMtNmZkZC00NmVlLWIxN2ItN2ZjN2FmZmYxNzc4IiwidCI6ImJkM2ZjNmFlLWE0NTUtNGFlYS1hM2RiLTI4NzlkMjI1MzM4NiIsImMiOjEwfQ%3D%3D'
-      />
+      <SmartBreadCrumb />
+      <Text span color='dark' size={'lg'}>
+        RSI EMPOWERS LEADING CPG MANUFACTURERS AND RETAILERS With the
+        intelligence they need to flawlessly manage their on-shelf availability
+        and retail sales across their product portfolio, delivering measurable
+        ROI and increased profits to their organizations.
+      </Text>
     </Stack>
   )
 }
