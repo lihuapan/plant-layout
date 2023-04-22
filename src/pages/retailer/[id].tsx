@@ -1,4 +1,5 @@
 import { FitText } from '@comp/FitText'
+import SmartBreadCrumb from '@comp/SmartBreadCrumb'
 import WIP from '@comp/WIP'
 import {
   RetailerDetail,
@@ -11,10 +12,9 @@ import {
 import { SkuPerformance } from '@data/retailer'
 
 import {
-  Anchor,
   Box,
-  Breadcrumbs,
   Card,
+  MantineTheme,
   SimpleGrid,
   Stack,
   Table,
@@ -26,7 +26,6 @@ import {
 import { Line } from '@pages/plant'
 import centroid from '@turf/centroid'
 import { GetStaticProps } from 'next'
-import Link from 'next/link'
 import { useState } from 'react'
 import {
   Annotation,
@@ -80,18 +79,9 @@ export const getStaticProps: GetStaticProps<
 }
 
 export default function Retailer({ id, stat }: Props) {
-  const breadcrumbItems = [
-    { title: 'Retailers', href: '/retailer' },
-    { title: id, href: `/retailer/${id}` }
-  ].map((item, index) => (
-    <Link key={index} href={item.href} legacyBehavior passHref>
-      <Anchor>{item.title}</Anchor>
-    </Link>
-  ))
-
   return (
     <Stack spacing='2rem'>
-      <Breadcrumbs>{breadcrumbItems}</Breadcrumbs>
+      <SmartBreadCrumb />
       {stat ? (
         <>
           <StatSummary data={stat.summary} />
@@ -260,6 +250,18 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
     text?: Point
   }
 
+  const colors: Record<string, string> = {
+    MA: t.colors.green[0],
+    RI: t.colors.green[0],
+    CT: t.colors.green[3],
+    NY: t.colors.green[3],
+    NJ: t.colors.green[5],
+    PA: t.colors.yellow[5],
+    DE: t.colors.yellow[7],
+    MD: t.colors.yellow[7],
+    VA: t.colors.orange[5]
+  }
+
   const adjust: Record<string, Point | Anno> = {
     WA: [2, -0.5],
     ID: [0, -1.5],
@@ -388,6 +390,8 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
                 )
               }
 
+              const fill = colors[state] ?? t.colors.light[t.fn.primaryShade()]
+
               return (
                 <Tooltip.Floating
                   key={geo.rsmKey}
@@ -402,7 +406,7 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
                   <g>
                     <Geography
                       geography={geo}
-                      fill={t.colors.light[t.fn.primaryShade()]}
+                      fill={fill}
                       stroke='#000000'
                       style={{
                         default: {
@@ -411,11 +415,11 @@ function Map({ data }: { data: Record<string, StatePerformance> }) {
                         },
                         hover: {
                           outline: 'none',
-                          fill: t.colors.yellow[t.fn.primaryShade()]
+                          fill: t.fn.lighten(fill, 0.3)
                         },
                         pressed: { outline: 'none' }
                       }}
-                    ></Geography>
+                    />
                     {marker}
                   </g>
                 </Tooltip.Floating>
