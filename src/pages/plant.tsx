@@ -7,7 +7,7 @@ import {
   Tooltip,
   useMantineTheme
 } from '@mantine/core'
-import PlantImg from '../../public/image/plant.png'
+import PlantImg from '../../public/image/plant.svg'
 
 export default function Plant() {
   return (
@@ -33,7 +33,7 @@ const PlantLayout = () => {
         background: `url(${PlantImg.src})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
-        width: 'min(850px, 100%)',
+        width: '100%',
         aspectRatio: '850/559',
         position: 'relative'
       }}
@@ -111,7 +111,9 @@ function Machine<T extends object>(data: MachineProp<T>) {
           cursor: 'pointer',
           textAlign: 'center',
           overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          textOverflow: 'ellipsis',
+          borderRadius: data.radius ?? '0',
+          rotate: data.rotate ?? 'none'
         }}
       >
         {data.id}
