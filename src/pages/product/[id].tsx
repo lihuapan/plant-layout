@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export default function PowerBI({ id }: Props) {
+export default function Product({ id }: Props) {
   return (
     <Stack>
       <iframe
