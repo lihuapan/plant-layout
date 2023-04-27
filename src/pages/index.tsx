@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardProps,
   Container,
   Group,
   Input,
@@ -54,7 +55,9 @@ export default function Index() {
                       transform: 'scale(1.02)'
                     }
                   }}
-                ></Card>
+                >
+                  <div></div>
+                </Card>
               ))}
             </SimpleGrid>
             <Box h='5em' />
