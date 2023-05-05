@@ -76,7 +76,7 @@ function Nav() {
       <Tabs.List pr='1rem'>
         <Tabs.Tab value='/'>Homepage</Tabs.Tab>
         {/* <Tabs.Tab value='/power_bi'>Power BI</Tabs.Tab> */}
-        <Tabs.Tab value='/plant'>Plant</Tabs.Tab>
+        <Tabs.Tab value='/plantlayout'>Plant</Tabs.Tab>
         <Tabs.Tab value='/retailer'>Retailers</Tabs.Tab>
         <Tabs.Tab value='/datasource'>Data Source</Tabs.Tab>
         <Tabs.Tab value='/product'>Product Category</Tabs.Tab>
