@@ -11,10 +11,11 @@
       Text,
       Title,
       Image,
-      useMantineTheme
+      useMantineTheme,
+      Alert 
     } from '@mantine/core'
     import Link from 'next/link'
-    import { IconSearch } from '@tabler/icons-react'
+    import { IconSearch, IconAlertCircle } from '@tabler/icons-react'
     import { productCategories } from '@data/product'
     import { retailers } from '@data/retailer'
     import { dataSources } from '@data/datasoruce'
@@ -33,8 +34,9 @@
       const t = useMantineTheme()
 
       return (
+        
         <Stack spacing={36}>
-          <Box w='100%' py='5rem'>
+          <Box w='100%' py='3rem'>
             <Container>
               <Stack>
                 <SimpleGrid

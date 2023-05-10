@@ -4,10 +4,12 @@ import {
   Drawer,
   Group,
   Tabs,
-  useMantineTheme
+  Alert,
+  useMantineTheme,
+  Container
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { IconExternalLink } from '@tabler/icons-react'
+import { IconExternalLink, IconAlertCircle } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -18,6 +20,12 @@ export default function Layout(props: { children: ReactNode }) {
     <Box mih='100vh' bg='light.0'>
       <Nav />
       <Box py='lg' px='clamp(1em, 5vw, 4em)'>
+        <Container>
+        <Alert icon={<IconAlertCircle size="2rem" />}  color="red" variant="filled">
+               Testing Page!
+          </Alert>
+        </Container>
+      
         {props.children}
       </Box>
     </Box>
