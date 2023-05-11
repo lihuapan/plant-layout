@@ -14,14 +14,15 @@ import { SkuPerformance } from '@data/retailer'
 import {
   Box,
   Card,
-  MantineTheme,
   SimpleGrid,
   Stack,
   Table,
   Text,
   Title,
   Tooltip,
-  useMantineTheme
+  useMantineTheme,
+  Container,
+  Image
 } from '@mantine/core'
 import { Line } from '@pages/plant'
 import centroid from '@turf/centroid'
@@ -40,6 +41,7 @@ import {
 interface Props {
   id: string
   stat: IRetailerStat | null
+  image: string[] 
 }
 
 export async function getStaticPaths() {
@@ -66,19 +68,21 @@ export const getStaticProps: GetStaticProps<
   }
 
   const id = context.params.id
+  const retailer = retailers[id]
 
   return {
     // Passed to the page component as props
     props: {
       id: id,
-      stat: retailers[id]?.data
-        ? buildStat(retailers[id].data as RetailerDetail[])
-        : null
+      stat: retailer?.data
+        ? buildStat(retailer.data as RetailerDetail[])
+        : null,
+      image: retailer.image? retailer.image : []
     }
   }
 }
 
-export default function Retailer({ id, stat }: Props) {
+export default function Retailer({ id, stat, image }: Props) {
   return (
     <Stack spacing='2rem'>
       <SmartBreadCrumb />
@@ -88,11 +92,26 @@ export default function Retailer({ id, stat }: Props) {
           <SKUPerformance data={stat.skuPerf} />
           <Map data={stat.mapPerf} />
         </>
-      ) : (
-        <WIP />
-      )}
+      ) : 
+      (
+       <ImageDetail id={id} image={image} />
+      ) 
+      }
     </Stack>
   )
+}
+
+function ImageDetail({ id, image }: {id: string, image: string[]}) {
+  const size = image?.length;
+  const noteItems = image?.map((image) =>
+    <Image key={id} alt={`${id} detail`} src={`/image/retailer/${image}`} />
+    );
+
+  if (size){
+    return <Container><Stack>{noteItems}</Stack></Container>;
+  } else {
+    return <WIP />
+  }
 }
 
 function StatSummary({ data }: { data: Record<string, RetailerSummary> }) {

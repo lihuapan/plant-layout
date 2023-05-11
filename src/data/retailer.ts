@@ -3,6 +3,7 @@ import ahold from '../../public/Ahold.json'
 export interface Retailer {
   website?: string
   data?: RetailerDetail[]
+  image?: string[]
 }
 
 export interface RetailerDetail {
@@ -39,31 +40,69 @@ export type Retailers = Record<string, Retailer>
 
 export const retailers: Retailers = {
   'Walmart': {
-    website: 'https://www.walmart.com'
+    website: 'https://www.walmart.com',
+    image: [
+        'Walmart_detail_1.png'
+      ]
   },
   'Target': {
-    website: 'https://www.target.com'
+    website: 'https://www.target.com',
+    image: []
   },
   'Walgreens': {
-    website: 'https://www.walgreens.com'
+    website: 'https://www.walgreens.com',
+    image: []
   },
   'Ahold': {
     website: '',
-    data: ahold
+    data: ahold,
+    image: []
   },
   "BJ's": {
-    website: ''
+    website: '',
+    image: []
   },
   'Costco': {
-    website: ''
+    website: '',
+    image: []
   },
   'Meijer': {
-    website: ''
+    website: '',
+    image: []
   },
   "Sam's Club": {
-    website: 'http://www.samsclub.com'
+    website: 'http://www.samsclub.com',
+    image: []
   },
   'Harris Teeter': {
+    website: '',
+    image: []
+  },
+  'AAFES': {
+    website: '',
+    image: []
+  },
+  'Safeway': {
+    website: '',
+    image: []
+  },
+  'Hy-vee': {
+    website: '',
+    image: []
+  },
+  'Kroger': {
+    website: '',
+    image: []
+  },
+  'Stater Bros': {
+    website: '',
+    image: []
+  },
+  'Dollar General': {
+    website: '',
+    image: []
+  },
+  'Nexcom': {
     website: ''
   }
 }
